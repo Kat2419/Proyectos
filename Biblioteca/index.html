@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Biblioteca</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { margin: 5px; }
+    .libro, .usuario { margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+    .disponible { color: green; font-weight: bold; }
+    .no-disponible { color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Biblioteca Virtual</h1>
+  <button onclick="ordenarPorTitulo()">Ordenar por Título</button>
+  <button onclick="ordenarPorAutor()">Ordenar por Autor</button>
+  <div id="contenedorLibros"></div>
+
+  <h1>Registro de Usuarios</h1>
+  <div id="contenedorUsuarios"></div>
+
+  <script>
+    class ItemBiblioteca {
+      constructor(titulo, autor, isbn, disponible) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.isbn = isbn;
+        this.disponible = disponible;
+      }
+    }
+
+    class Libro extends ItemBiblioteca {
+      constructor(titulo, autor, genero, isbn, disponible = true) {
+        super(titulo, autor, isbn, disponible);
+        this.genero = genero;
+      }
+
+      mostrar() {
+        const estado = this.disponible
+          ? `<span class="disponible">Disponible</span>`
+          : `<span class="no-disponible">Prestado</span>`;
+        return `<strong>${this.titulo}</strong> de ${this.autor} (${this.genero})<br>
+                ISBN: ${this.isbn} - Estado: ${estado}`;
+      }
+    }
+
+    class Usuario {
+      constructor(nombre, email) {
+        this.nombre = nombre;
+        this.email = email;
+        this.librosPrestados = [];
+      }
+
+      mostrar() {
+        const libros = this.librosPrestados.length > 0
+          ? this.librosPrestados.join(", ")
+          : "Ninguno";
+        return `<strong>${this.nombre}</strong><br>Email: ${this.email}<br>Libros prestados: ${libros}`;
+      }
+
+      pedirLibro(libro) {
+        if (libro.disponible) {
+          libro.disponible = false;
+          this.librosPrestados.push(libro.titulo);
+          alert(`${this.nombre} ha pedido el libro: "${libro.titulo}"`);
+          mostrarLibros();
+          mostrarUsuarios();
+        } else {
+          alert(`El libro "${libro.titulo}" no está disponible.`);
+        }
+      }
+    }
+
+ 
+    const biblioteca = [
+      new Libro("Cien Años de Soledad", "Gabriel García Márquez", "Realismo Mágico", "978-0307474728"),
+      new Libro("El Principito", "Antoine de Saint-Exupéry", "Fábula", "978-0156012195"),
+      new Libro("1984", "George Orwell", "Distopía", "978-0451524935"),
+      new Libro("Don Quijote", "Miguel de Cervantes", "Novela", "978-8491050296"),
+    ];
+
+    
+    const usuarios = [
+      new Usuario("Pepita Pérez", "pepitaperez@gmail.com"),
+      new Usuario("Pedro Arroyo", "pedroarroyo@gmail.com"),
+      new Usuario("María Hercilia", "maria@gmail.com"),
+      new Usuario("Carmenza Azul", "carmenzaazul@gmail.com"),
+    ];
+
+    
+    function mostrarLibros() {
+      const contenedor = document.getElementById("contenedorLibros");
+      contenedor.innerHTML = "";
+      biblioteca.forEach(libro => {
+        const div = document.createElement("div");
+        div.className = "libro";
+        div.innerHTML = libro.mostrar();
+        contenedor.appendChild(div);
+      });
+    }
+
+    
+    function mostrarUsuarios() {
+      const contenedor = document.getElementById("contenedorUsuarios");
+      contenedor.innerHTML = "";
+      usuarios.forEach(usuario => {
+        const div = document.createElement("div");
+        div.className = "usuario";
+        div.innerHTML = usuario.mostrar();
+
+        
+        const select = document.createElement("select");
+        biblioteca.forEach((libro, index) => {
+          if (libro.disponible) {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = libro.titulo;
+            select.appendChild(option);
+          }
+        });
+
+        const boton = document.createElement("button");
+        boton.textContent = "Pedir libro";
+        boton.onclick = () => {
+          const libroElegido = biblioteca[select.value];
+          usuario.pedirLibro(libroElegido);
+        };
+
+        div.appendChild(document.createElement("br"));
+        div.appendChild(select);
+        div.appendChild(boton);
+        contenedor.appendChild(div);
+      });
+    }
+
+  
+    function ordenarPorTitulo() {
+      biblioteca.sort((a, b) => a.titulo.localeCompare(b.titulo));
+      mostrarLibros();
+    }
+
+    function ordenarPorAutor() {
+      biblioteca.sort((a, b) => a.autor.localeCompare(b.autor));
+      mostrarLibros();
+    }
+
+   
+    mostrarLibros();
+    mostrarUsuarios();
+  </script>
+</body>
+</html>
