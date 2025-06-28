@@ -1,0 +1,18 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  margin: 20px;
+}
+
+h1 {
+  color: #005f73;
+}
+
+#output p {
+  background-color: #e0fbfc;
+  border: 1px solid #98c1d9;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 8px 0;
+}
