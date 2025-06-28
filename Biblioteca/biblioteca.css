@@ -1,0 +1,66 @@
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f2f2f2;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 40px;
+  font-size: 28px;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin: 8px 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+#contenedorLibros,
+#contenedorUsuarios {
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.libro,
+.usuario {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-left: 5px solid #3498db;
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+select {
+  padding: 6px 10px;
+  margin: 8px 4px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.disponible {
+  color: green;
+  font-weight: bold;
+}
+
+.no-disponible {
+  color: red;
+  font-weight: bold;
+}
